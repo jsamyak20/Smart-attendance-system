@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Attendance - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Attendance App</h2>
+                <button class="mobile-menu-close" id="closeMenuBtn">&times;</button>
+            </div>
+            <ul class="nav-links">
+                <li><button class="nav-btn active" data-target="dashboard-section">📊 Dashboard</button></li>
+                <li><button class="nav-btn" data-target="attendance-section">📝 Attendance</button></li>
+                <li><button class="nav-btn" data-target="records-section">📁 Records</button></li>
+            </ul>
+            <div class="sidebar-footer">
+                <button class="nav-btn btn-outline" id="logoutBtn" style="color: inherit; border-color: rgba(255,255,255,0.2);">🚪 Logout</button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navigation Bar -->
+            <header class="topbar">
+                <div class="mobile-menu-toggle">
+                    <button id="openMenuBtn">☰</button>
+                </div>
+                <div class="date-display" id="currentDateDisplay">Date: Fetching...</div>
+                <div class="theme-toggle">
+                    <button id="themeToggleBtn">🌙</button>
+                </div>
+            </header>
+
+            <!-- Dashboard Overview Section -->
+            <section id="dashboard-section" class="content-section active">
+                <h2 class="section-title">Dashboard Overview</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card total">
+                        <h3>Total Students</h3>
+                        <p class="metric-value" id="dashTotal">0</p>
+                    </div>
+                    <div class="metric-card present">
+                        <h3>Present Today</h3>
+                        <p class="metric-value" id="dashPresent">0</p>
+                    </div>
+                    <div class="metric-card absent">
+                        <h3>Absent Today</h3>
+                        <p class="metric-value" id="dashAbsent">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mark Attendance Section -->
+            <section id="attendance-section" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Mark Attendance</h2>
+                    <div class="attendance-actions">
+                        <button class="btn btn-outline" id="resetBtn">Reset Today</button>
+                        <button class="btn btn-success" id="markAllBtn">Mark All Present</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Search by name or roll number...">
+                    </div>
+                    <div class="table-container">
+                        <table class="students-table">
+                            <thead>
+                                <tr>
+                                    <th>Roll No</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentList">
+                                <!-- Student rows will be injected here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Attendance Records Section -->
+            <section id="records-section" class="content-section">
+                <h2 class="section-title">Attendance Records</h2>
+                <div class="card">
+                    <div class="filter-bar">
+                        <label for="recordDate">Select Date:</label>
+                        <input type="date" id="recordDate">
+                    </div>
+                    
+                    <div class="record-summary" id="recordSummary" style="display: none;">
+                        <p>Total Present: <span id="recPresent" class="text-success">0</span></p>
+                        <p>Total Absent: <span id="recAbsent" class="text-danger">0</span></p>
+                    </div>
+
+                    <div class="table-container" id="recordTableContainer" style="display: none;">
+                        <table class="students-table">
+                            <thead>
+                                <tr>
+                                    <th>Roll No</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recordList">
+                                <!-- Record rows will be injected here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="noRecordMsg" class="empty-state">
+                        <p>No attendance records found for this date.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script at the end for performance -->
+    <script src="script.js"></script>
+</body>
+</html>
