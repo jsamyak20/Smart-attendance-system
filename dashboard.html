@@ -3,86 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Attendance - Dashboard</title>
+    <title>EduTrack Pro - Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
     <div class="app-container">
         <!-- Sidebar Navigation -->
-        <nav class="sidebar" id="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h2>Attendance App</h2>
-                <button class="mobile-menu-close" id="closeMenuBtn">&times;</button>
+                <div class="logo-box">E</div>
+                <h2>EduTrack Pro</h2>
             </div>
+            
             <ul class="nav-links">
-                <li><button class="nav-btn active" data-target="dashboard-section">📊 Dashboard</button></li>
-                <li><button class="nav-btn" data-target="attendance-section">📝 Attendance</button></li>
-                <li><button class="nav-btn" data-target="records-section">📁 Records</button></li>
+                <li class="nav-item">
+                    <button class="nav-btn active" data-target="dashboard-section">
+                        <i data-lucide="layout-dashboard"></i>
+                        Overview
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-btn" data-target="attendance-section">
+                        <i data-lucide="check-square"></i>
+                        Mark Attendance
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-btn" data-target="records-section">
+                        <i data-lucide="database"></i>
+                        Records History
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-btn" data-target="students-section">
+                        <i data-lucide="users"></i>
+                        Manage Students
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-btn" data-target="settings-section">
+                        <i data-lucide="settings"></i>
+                        Settings
+                    </button>
+                </li>
             </ul>
+            
             <div class="sidebar-footer">
-                <button class="nav-btn btn-outline" id="logoutBtn" style="color: inherit; border-color: rgba(255,255,255,0.2);">🚪 Logout</button>
+                <button class="nav-btn" id="logoutBtn" style="color: var(--danger);">
+                    <i data-lucide="log-out"></i>
+                    Sign Out
+                </button>
             </div>
-        </nav>
+        </aside>
 
         <!-- Main Content Area -->
         <main class="main-content">
             <!-- Top Navigation Bar -->
             <header class="topbar">
-                <div class="mobile-menu-toggle">
-                    <button id="openMenuBtn">☰</button>
+                <div class="mobile-toggle">
+                    <button id="openMenuBtn"><i data-lucide="menu"></i></button>
                 </div>
-                <div class="date-display" id="currentDateDisplay">Date: Fetching...</div>
-                <div class="theme-toggle">
-                    <button id="themeToggleBtn">🌙</button>
+                
+                <div class="date-box">
+                    <i data-lucide="calendar"></i>
+                    <span id="currentDateDisplay">Loading date...</span>
+                </div>
+                
+                <div class="topbar-right">
+                    <div id="themeToggleBtn" class="theme-switch" aria-label="Toggle Theme">
+                        <i data-lucide="moon"></i>
+                    </div>
                 </div>
             </header>
 
             <!-- Dashboard Overview Section -->
             <section id="dashboard-section" class="content-section active">
-                <h2 class="section-title">Dashboard Overview</h2>
+                <div class="header-row">
+                    <div>
+                        <h1 class="section-title">Dashboard</h1>
+                        <p class="section-subtitle">Real-time attendance summary for today</p>
+                    </div>
+                </div>
+                
                 <div class="metrics-grid">
                     <div class="metric-card total">
-                        <h3>Total Students</h3>
-                        <p class="metric-value" id="dashTotal">0</p>
+                        <div class="metric-icon"><i data-lucide="users"></i></div>
+                        <div class="metric-info">
+                            <h3>Total Students</h3>
+                            <p class="metric-value" id="dashTotal">0</p>
+                        </div>
                     </div>
                     <div class="metric-card present">
-                        <h3>Present Today</h3>
-                        <p class="metric-value" id="dashPresent">0</p>
+                        <div class="metric-icon"><i data-lucide="user-check"></i></div>
+                        <div class="metric-info">
+                            <h3>Present Today</h3>
+                            <p class="metric-value" id="dashPresent">0</p>
+                        </div>
                     </div>
                     <div class="metric-card absent">
-                        <h3>Absent Today</h3>
-                        <p class="metric-value" id="dashAbsent">0</p>
+                        <div class="metric-icon"><i data-lucide="user-x"></i></div>
+                        <div class="metric-info">
+                            <h3>Absent Today</h3>
+                            <p class="metric-value" id="dashAbsent">0</p>
+                        </div>
+                    </div>
+                    <div class="metric-card" style="border-color: var(--warning);">
+                        <div class="metric-icon" style="background-color: rgba(245, 158, 11, 0.1); color: var(--warning);"><i data-lucide="percent"></i></div>
+                        <div class="metric-info">
+                            <h3>Attendance %</h3>
+                            <p class="metric-value" id="dashPercent">0%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 style="font-weight: 700;">Attendance Calendar</h3>
+                            <div class="calendar-nav">
+                                <button class="btn btn-outline btn-icon" id="prevMonth"><i data-lucide="chevron-left"></i></button>
+                                <span id="calendarMonth" style="font-weight: 600; min-width: 120px; text-align: center;">Month Year</span>
+                                <button class="btn btn-outline btn-icon" id="nextMonth"><i data-lucide="chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="calendar-container">
+                                <div class="calendar-weekdays">
+                                    <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                                </div>
+                                <div id="calendarDays" class="calendar-days"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 style="font-weight: 700;">Recent Activity</h3>
+                            <button class="btn btn-outline btn-icon"><i data-lucide="more-horizontal"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <div id="recentActivityList">
+                                <p class="text-muted" style="text-align: center; padding: 1rem;">No recent activities logged.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- Mark Attendance Section -->
             <section id="attendance-section" class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">Mark Attendance</h2>
+                <div class="header-row">
+                    <div>
+                        <h1 class="section-title">Mark Attendance</h1>
+                        <p class="section-subtitle">Quick status update for today</p>
+                    </div>
                     <div class="attendance-actions">
-                        <button class="btn btn-outline" id="resetBtn">Reset Today</button>
-                        <button class="btn btn-success" id="markAllBtn">Mark All Present</button>
+                        <button class="btn btn-outline" id="resetBtn">
+                            <i data-lucide="rotate-ccw"></i> Reset
+                        </button>
+                        <button class="btn btn-primary" id="markAllBtn">
+                            <i data-lucide="check-circle"></i> Mark All Present
+                        </button>
                     </div>
                 </div>
                 
                 <div class="card">
-                    <div class="search-bar">
-                        <input type="text" id="searchInput" placeholder="Search by name or roll number...">
+                    <div class="card-header">
+                        <div class="search-input-group">
+                            <i data-lucide="search"></i>
+                            <input type="text" id="searchInput" placeholder="Search by name or roll number...">
+                        </div>
                     </div>
                     <div class="table-container">
-                        <table class="students-table">
+                        <table class="modern-table">
                             <thead>
                                 <tr>
-                                    <th>Roll No</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Roll Number</th>
+                                    <th>Full Name</th>
+                                    <th>Current Status</th>
+                                    <th style="text-align: right;">Quick Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="studentList">
-                                <!-- Student rows will be injected here by JavaScript -->
+                                <!-- Student rows injected by JS -->
                             </tbody>
                         </table>
                     </div>
@@ -91,20 +197,30 @@
 
             <!-- Attendance Records Section -->
             <section id="records-section" class="content-section">
-                <h2 class="section-title">Attendance Records</h2>
+                <div class="header-row">
+                    <div>
+                        <h1 class="section-title">Historical Records</h1>
+                        <p class="section-subtitle">Review and export past attendance logs</p>
+                    </div>
+                    <button class="btn btn-outline" id="exportBtn">
+                        <i data-lucide="download"></i> Export CSV
+                    </button>
+                </div>
+                
                 <div class="card">
-                    <div class="filter-bar">
-                        <label for="recordDate">Select Date:</label>
-                        <input type="date" id="recordDate">
+                    <div class="card-header">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <label for="recordDate" style="font-size: 0.875rem; font-weight: 600;">Log Date:</label>
+                            <input type="date" id="recordDate" class="btn btn-outline" style="max-width: 200px;">
+                        </div>
+                        <div class="record-summary" id="recordSummary" style="display: none; gap: 1.5rem;">
+                            <span class="badge badge-success">Present: <span id="recPresent">0</span></span>
+                            <span class="badge badge-danger">Absent: <span id="recAbsent">0</span></span>
+                        </div>
                     </div>
                     
-                    <div class="record-summary" id="recordSummary" style="display: none;">
-                        <p>Total Present: <span id="recPresent" class="text-success">0</span></p>
-                        <p>Total Absent: <span id="recAbsent" class="text-danger">0</span></p>
-                    </div>
-
                     <div class="table-container" id="recordTableContainer" style="display: none;">
-                        <table class="students-table">
+                        <table class="modern-table">
                             <thead>
                                 <tr>
                                     <th>Roll No</th>
@@ -113,20 +229,133 @@
                                 </tr>
                             </thead>
                             <tbody id="recordList">
-                                <!-- Record rows will be injected here by JavaScript -->
                             </tbody>
                         </table>
                     </div>
                     
-                    <div id="noRecordMsg" class="empty-state">
-                        <p>No attendance records found for this date.</p>
+                    <div id="noRecordMsg" style="padding: 4rem; text-align: center;">
+                        <i data-lucide="file-question" style="width: 48px; height: 48px; color: var(--text-muted); margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p class="text-muted">No attendance logs found for the selected date.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manage Students Section -->
+            <section id="students-section" class="content-section">
+                <div class="header-row">
+                    <div>
+                        <h1 class="section-title">Student Management</h1>
+                        <p class="section-subtitle">Add or remove students from the database</p>
+                    </div>
+                    <button class="btn btn-primary" id="addStudentBtn">
+                        <i data-lucide="user-plus"></i> Add Student
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Roll Number</th>
+                                    <th>Full Name</th>
+                                    <th style="text-align: right;">Operations</th>
+                                </tr>
+                            </thead>
+                            <tbody id="manageStudentsList">
+                                <!-- Student rows injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="content-section">
+                <div class="header-row">
+                    <div>
+                        <h1 class="section-title">System Settings</h1>
+                        <p class="section-subtitle">Configure your institutional identity</p>
+                    </div>
+                </div>
+
+                <div class="card" style="max-width: 600px;">
+                    <div class="card-header">
+                        <h3 style="font-weight: 700;">Institute Branding</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="settingsForm">
+                            <div class="form-group">
+                                <label>Institution Name</label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="school"></i>
+                                    <input type="text" id="instName" placeholder="e.g. St. Xavier's College" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Save Settings</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card" style="max-width: 600px; margin-top: 2rem; border-color: var(--danger);">
+                    <div class="card-header">
+                        <h3 style="font-weight: 700; color: var(--danger);">Danger Zone</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted" style="margin-bottom: 1.5rem;">Permanently clear all data including students and attendance records.</p>
+                        <button class="btn btn-outline" id="factoryReset" style="color: var(--danger); border-color: var(--danger);">Factory Reset System</button>
                     </div>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- Script at the end for performance -->
+    <!-- Toast Component -->
+    <div id="toast" style="display: none; position: fixed; bottom: 2rem; right: 2rem; background: var(--bg-sidebar); color: white; padding: 1rem 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 2000; animation: slideUp 0.3s ease-out; align-items: center; gap: 0.75rem;">
+        <i data-lucide="check-circle" style="color: var(--success); width: 20px; height: 20px;"></i>
+        <span id="toastMsg">Action completed successfully</span>
+    </div>
+
+    <!-- Modals (Simple overlays) -->
+    <div id="addStudentModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+        <div class="card" style="width: 100%; max-width: 400px; padding: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;">Add New Student</h2>
+            <form id="addStudentForm">
+                <div class="form-group">
+                    <label>Roll Number</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="hash"></i>
+                        <input type="text" id="newRoll" placeholder="e.g. 101" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="user"></i>
+                        <input type="text" id="newName" placeholder="e.g. John Doe" required>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn btn-outline" style="flex: 1;" id="closeModalBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Add Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script>
+        // Initialize icons
+        lucide.createIcons();
+        
+        // Modal simple logic (handled in script.js as well, but providing skeleton here)
+        const modal = document.getElementById('addStudentModal');
+        const openBtn = document.getElementById('addStudentBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+
+        if(openBtn) openBtn.onclick = () => { modal.style.display = 'flex'; lucide.createIcons(); };
+        if(closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
+        window.onclick = (e) => { if(e.target == modal) modal.style.display = 'none'; };
+    </script>
 </body>
 </html>

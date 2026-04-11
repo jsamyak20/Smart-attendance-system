@@ -3,40 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Attendance System - Login</title>
+    <title>EduTrack Pro - Smart Academic Attendance</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="login-body">
-    <div class="theme-toggle login-theme">
-        <button id="themeToggleBtn" aria-label="Toggle Dark Mode">🌙</button>
-    </div>
-    
-    <div class="login-container">
-        <div class="login-card">
-            <h2>Welcome Back</h2>
-            <p>Smart Attendance System</p>
-            
-            <form id="loginForm">
-                <div class="input-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" placeholder="Enter username" required>
-                </div>
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter password" required>
-                </div>
-                
-                <div class="error-message" id="loginError">Incorrect username or password.</div>
-                
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
-            </form>
-            
-            <div class="login-hint">Hint: admin / admin123</div>
+<body>
+    <nav class="landing-navbar">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div class="logo-box">E</div>
+            <h2 style="font-size: 1.25rem; font-weight: 800;">EduTrack Pro</h2>
         </div>
-    </div>
+        <div style="display: flex; gap: 1rem;">
+            <a href="login.html" class="btn btn-primary">Login Now</a>
+        </div>
+    </nav>
 
-    <!-- Script at the end for performance -->
-    <script src="script.js"></script>
+    <header class="hero">
+        <h1>Transform Your <span>Academic Attendance</span></h1>
+        <p>A professional, centralized platform for schools and colleges to manage students, track presence, and generate intelligent reports with ease.</p>
+        <div style="display: flex; justify-content: center; gap: 1rem;">
+            <a href="login.html" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Get Started for Free</a>
+            <a href="#features" class="btn btn-outline" style="padding: 1rem 2rem; font-size: 1.1rem;">Explore Features</a>
+        </div>
+    </header>
+
+    <section id="features" class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon"><i data-lucide="calendar"></i></div>
+            <h3>Smart Calendar</h3>
+            <p>Visual monthly overview with interactive event markers and data density tracking.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i data-lucide="bar-chart-3"></i></div>
+            <h3>Real-time Metrics</h3>
+            <p>Instant analytics on student presence and absence rates at a single glance.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i data-lucide="users"></i></div>
+            <h3>Student Sync</h3>
+            <p>Effortlessly manage your entire student database with our intuitive CRUD interface.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+            <h3>Secure Admin</h3>
+            <p>Private management portal with local storage persistence and session security.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i data-lucide="download"></i></div>
+            <h3>Intelligent Export</h3>
+            <p>Generate professional attendance reports in CSV format for institutional documentation.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i data-lucide="layout"></i></div>
+            <h3>Seamless UX</h3>
+            <p>Modern, responsive design optimized for desktop, tablets, and mobile devices.</p>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2 style="font-size: 3rem; margin-bottom: 1.5rem;">Join the Future of Academia</h2>
+            <p style="margin-bottom: 2rem; opacity: 0.9; max-width: 600px; margin-left: auto; margin-right: auto;">Start managing your institution's attendance with EduTrack Pro today. No complex setup required.</p>
+            <a href="login.html" class="btn btn-primary" style="padding: 1rem 3rem; background: white; color: var(--bg-sidebar);">Access Portal</a>
+        </div>
+    </section>
+
+    <footer style="padding: 4rem 10%; background: var(--bg-card); border-top: 1px solid var(--border); text-align: center;">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+            <div class="logo-box" style="width: 32px; height: 32px; font-size: 1rem;">E</div>
+            <h2 style="font-size: 1.1rem; font-weight: 800;">EduTrack Pro</h2>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.875rem;">© 2026 EduTrack Systems International. All rights reserved.</p>
+    </footer>
+
+    <script>lucide.createIcons();</script>
 </body>
 </html>
