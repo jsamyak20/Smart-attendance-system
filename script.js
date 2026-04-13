@@ -162,7 +162,15 @@ function setupDashboard() {
     const initialsDisplay = document.getElementById('userInitials');
     if (userDisplay) userDisplay.textContent = state.currentUser;
     if (initialsDisplay && state.currentUser) {
-        initialsDisplay.textContent = state.currentUser.charAt(0).toUpperCase();
+        const name = state.currentUser;
+        const parts = name.split(/[\s_-]+/);
+        let initials = '';
+        if (parts.length > 1) {
+            initials = (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+        } else {
+            initials = name.slice(0, 2).toUpperCase();
+        }
+        initialsDisplay.textContent = initials;
     }
     
     // Core Actions

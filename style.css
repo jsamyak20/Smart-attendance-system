@@ -538,14 +538,24 @@ button, input, select {
     transition: var(--transition);
 }
 
-/* --- Profile Badge Fallback --- */
+/* --- Profile Badge & Avatar --- */
 .profile-badge-container {
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50%;
+    background-color: var(--bg-input);
+    border: 1.5px solid var(--border);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.profile-badge-container:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 .profile-badge-container img {
@@ -553,22 +563,20 @@ button, input, select {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid var(--primary);
+    display: block;
 }
 
 .avatar-fallback {
     width: 100%;
     height: 100%;
-    background-color: var(--primary);
+    background: linear-gradient(135deg, var(--primary), #818cf8);
     color: white;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.65rem;
+    font-size: 0.875rem;
     font-weight: 700;
     text-transform: uppercase;
-    border: 1px solid var(--primary);
 }
 
 /* --- Theme Toggle --- */
