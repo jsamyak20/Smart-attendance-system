@@ -89,8 +89,35 @@ button, input, select {
     color: var(--text-on-sidebar);
     display: flex;
     flex-direction: column;
-    z-index: 50;
-    transition: transform 0.3s ease;
+    z-index: 100;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 90;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.close-sidebar {
+    display: none;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-left: auto;
 }
 
 .sidebar-header {
@@ -341,6 +368,7 @@ button, input, select {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+    min-width: 600px;
 }
 
 .modern-table th {
@@ -775,25 +803,44 @@ button, input, select {
     z-index: 2;
 }
 
-@media (max-width: 768px) {
-    .hero h1 { font-size: 2.5rem; }
-    .hero p { font-size: 1.1rem; }
-    .landing-navbar { padding: 1rem 5%; }
-}
-
 @media (max-width: 1024px) {
     .sidebar {
         position: fixed;
         left: -280px;
         top: 0;
         bottom: 0;
+        z-index: 1000;
     }
+    
     .sidebar.open {
         transform: translateX(280px);
     }
+
     .mobile-toggle {
         display: block;
     }
+
+    .close-sidebar {
+        display: block;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero { padding: 6rem 5% 4rem; }
+    .hero h1 { font-size: 2.5rem; }
+    .hero p { font-size: 1.1rem; }
+    .landing-navbar { padding: 1rem 5%; }
+    .features-grid { padding: 2rem 5%; }
+    .cta-section { padding: 4rem 5%; }
+    .cta-card { padding: 3rem 1.5rem; }
+    .cta-card h2 { font-size: 2rem !important; }
+    
+    #creator { padding: 4rem 5% !important; }
+    .creator-grid h2 { font-size: 2rem !important; }
 }
 
 @media (max-width: 640px) {
@@ -802,11 +849,64 @@ button, input, select {
         align-items: flex-start;
         gap: 1rem;
     }
+
     .topbar {
         padding: 0.75rem 1rem;
     }
+
+    .topbar-right {
+        gap: 0.75rem;
+    }
+
+    #userNameDisplay {
+        display: none;
+    }
+
     .content-section {
         padding: 1.5rem 1rem;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .attendance-actions {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .attendance-actions .btn {
+        width: 100%;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .search-input-group {
+        max-width: none;
+    }
+
+    .record-summary {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .calendar-weekdays div {
+        font-size: 0.6rem;
+    }
+
+    .login-card {
+        padding: 1.5rem;
+        border-radius: var(--radius-lg);
     }
 }
 

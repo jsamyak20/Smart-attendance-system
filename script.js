@@ -221,8 +221,14 @@ function setupNavigation() {
             // Re-render specific section content if needed
             if(target === 'records-section') renderRecords(document.getElementById('recordDate').value);
             
-            // Close mobile menu
-            document.getElementById('sidebar').classList.remove('open');
+            // Close mobile menu if open
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
             if (window.lucide) lucide.createIcons();
         });
     });
@@ -230,7 +236,25 @@ function setupNavigation() {
 
 function setupMobileMenu() {
     const openBtn = document.getElementById('openMenuBtn');
-    if(openBtn) openBtn.onclick = () => document.getElementById('sidebar').classList.add('open');
+    const closeBtn = document.getElementById('closeMenuBtn');
+    const overlay = document.getElementById('sidebarOverlay');
+    const sidebar = document.getElementById('sidebar');
+
+    const openMenu = () => {
+        sidebar.classList.add('open');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    };
+
+    const closeMenu = () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    };
+
+    if (openBtn) openBtn.onclick = openMenu;
+    if (closeBtn) closeBtn.onclick = closeMenu;
+    if (overlay) overlay.onclick = closeMenu;
 }
 
 // --- Attendance Logic ---
