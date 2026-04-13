@@ -20,11 +20,13 @@ const DEFAULT_STUDENTS = [
 // --- Core State Management ---
 const state = {
     isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
+    currentUser: localStorage.getItem('currentUser') || null,
+    users: JSON.parse(localStorage.getItem('users')) || [{ username: 'admin', password: 'admin123' }],
     theme: localStorage.getItem('theme') || 'light',
-    students: JSON.parse(localStorage.getItem('attendance_students')) || DEFAULT_STUDENTS,
-    attendance: JSON.parse(localStorage.getItem('attendance_records')) || {},
-    activities: JSON.parse(localStorage.getItem('attendance_activities')) || [],
-    settings: JSON.parse(localStorage.getItem('attendance_settings')) || { instName: 'EduTrack Institute' },
+    students: [],
+    attendance: {},
+    activities: [],
+    settings: { instName: 'EduTrack Institute' },
     currentSection: 'dashboard-section',
     calendarDate: new Date()
 };
@@ -32,13 +34,26 @@ const state = {
 // --- Initialization ---
 function init() {
     applyTheme();
+    
+    if (state.currentUser) {
+        loadUserData(state.currentUser);
+    }
+    
     setupAuthGuard();
     
     if (window.location.pathname.includes('dashboard.html')) {
         setupDashboard();
     } else {
         setupLogin();
+        setupSignup();
     }
+}
+
+function loadUserData(username) {
+    state.students = JSON.parse(localStorage.getItem(`u_${username}_students`)) || DEFAULT_STUDENTS;
+    state.attendance = JSON.parse(localStorage.getItem(`u_${username}_attendance`)) || {};
+    state.activities = JSON.parse(localStorage.getItem(`u_${username}_activities`)) || [];
+    state.settings = JSON.parse(localStorage.getItem(`u_${username}_settings`)) || { instName: 'EduTrack Institute' };
 }
 
 // --- Theme Management ---
@@ -62,11 +77,12 @@ function toggleTheme() {
 function setupAuthGuard() {
     const isDashboard = window.location.pathname.includes('dashboard.html');
     const isLogin = window.location.pathname.includes('login.html');
+    const isSignup = window.location.pathname.includes('signup.html');
     const isHome = window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/');
 
     if (isDashboard && !state.isLoggedIn) {
         window.location.href = 'login.html';
-    } else if (isLogin && state.isLoggedIn) {
+    } else if ((isLogin || isSignup) && state.isLoggedIn) {
         window.location.href = 'dashboard.html';
     }
 }
@@ -78,20 +94,60 @@ function setupLogin() {
 
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const user = document.getElementById('username').value;
+        const user = document.getElementById('username').value.trim().toLowerCase();
         const pass = document.getElementById('password').value;
         const errorMsg = document.getElementById('loginError');
 
-        if (user === 'admin' && pass === 'admin123') {
+        const foundUser = state.users.find(u => u.username === user && u.password === pass);
+
+        if (foundUser) {
             localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('currentUser', user);
             window.location.href = 'dashboard.html';
         } else {
             errorMsg.style.display = 'block';
+            errorMsg.innerHTML = '<i data-lucide="alert-circle" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;"></i> Invalid username or password';
+            if (window.lucide) lucide.createIcons();
         }
     });
 
     const themeBtn = document.getElementById('themeToggleBtn');
     if (themeBtn) themeBtn.onclick = toggleTheme;
+}
+
+// --- Signup Logic ---
+function setupSignup() {
+    const signupForm = document.getElementById('signupForm');
+    if (!signupForm) return;
+
+    signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const user = document.getElementById('username').value.trim().toLowerCase();
+        const pass = document.getElementById('password').value;
+        const confirmPass = document.getElementById('confirmPassword').value;
+        const errorMsg = document.getElementById('signupError');
+
+        if (pass !== confirmPass) {
+            errorMsg.style.display = 'block';
+            errorMsg.textContent = 'Passwords do not match';
+            return;
+        }
+
+        if (state.users.some(u => u.username === user)) {
+            errorMsg.style.display = 'block';
+            errorMsg.textContent = 'Username already exists';
+            return;
+        }
+
+        const newUser = { username: user, password: pass };
+        state.users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(state.users));
+
+        // Auto-login after signup
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', user);
+        window.location.href = 'dashboard.html';
+    });
 }
 
 // --- Dashboard Logic ---
@@ -100,6 +156,14 @@ function setupDashboard() {
     updateDateDisplay();
     setupNavigation();
     setupMobileMenu();
+    
+    // Display Username & Initials
+    const userDisplay = document.getElementById('userNameDisplay');
+    const initialsDisplay = document.getElementById('userInitials');
+    if (userDisplay) userDisplay.textContent = state.currentUser;
+    if (initialsDisplay && state.currentUser) {
+        initialsDisplay.textContent = state.currentUser.charAt(0).toUpperCase();
+    }
     
     // Core Actions
     setupAttendanceActions();
@@ -120,6 +184,7 @@ function setupDashboard() {
     document.getElementById('themeToggleBtn').onclick = toggleTheme;
     document.getElementById('logoutBtn').onclick = () => {
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('currentUser');
         window.location.href = 'login.html';
     };
     
@@ -390,14 +455,17 @@ function renderRecords(date) {
 
 // --- Helpers ---
 function saveStudents() {
-    localStorage.setItem('attendance_students', JSON.stringify(state.students));
+    if (!state.currentUser) return;
+    localStorage.setItem(`u_${state.currentUser}_students`, JSON.stringify(state.students));
 }
 
 function saveAttendance() {
-    localStorage.setItem('attendance_records', JSON.stringify(state.attendance));
+    if (!state.currentUser) return;
+    localStorage.setItem(`u_${state.currentUser}_attendance`, JSON.stringify(state.attendance));
 }
 
 function logActivity(message, type = 'info') {
+    if (!state.currentUser) return;
     const activity = {
         message,
         type,
@@ -406,7 +474,7 @@ function logActivity(message, type = 'info') {
     };
     state.activities.unshift(activity);
     if (state.activities.length > 10) state.activities.pop();
-    localStorage.setItem('attendance_activities', JSON.stringify(state.activities));
+    localStorage.setItem(`u_${state.currentUser}_activities`, JSON.stringify(state.activities));
     renderRecentActivity();
 }
 
@@ -528,7 +596,9 @@ function setupSettings() {
         form.onsubmit = (e) => {
             e.preventDefault();
             state.settings.instName = document.getElementById('instName').value;
-            localStorage.setItem('attendance_settings', JSON.stringify(state.settings));
+            if (state.currentUser) {
+                localStorage.setItem(`u_${state.currentUser}_settings`, JSON.stringify(state.settings));
+            }
             applySettings();
             showToast('Settings saved successfully');
             logActivity('Updated Institute settings');

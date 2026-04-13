@@ -538,6 +538,39 @@ button, input, select {
     transition: var(--transition);
 }
 
+/* --- Profile Badge Fallback --- */
+.profile-badge-container {
+    width: 24px;
+    height: 24px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-badge-container img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--primary);
+}
+
+.avatar-fallback {
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid var(--primary);
+}
+
 /* --- Theme Toggle --- */
 .theme-switch {
     width: 40px;
@@ -716,6 +749,7 @@ button, input, select {
     border-radius: var(--radius-xl);
     position: relative;
     overflow: hidden;
+    z-index: 1;
 }
 
 .cta-card::before {
@@ -724,6 +758,13 @@ button, input, select {
     top: -50%; left: -50%;
     width: 200%; height: 200%;
     background: radial-gradient(circle at center, rgba(79, 70, 229, 0.2), transparent);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.cta-card > * {
+    position: relative;
+    z-index: 2;
 }
 
 @media (max-width: 768px) {
@@ -758,5 +799,20 @@ button, input, select {
     }
     .content-section {
         padding: 1.5rem 1rem;
+    }
+}
+
+/* --- Creator Section --- */
+.creator-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .creator-grid {
+        grid-template-columns: 1fr !important;
+        gap: 3rem !important;
     }
 }

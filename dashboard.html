@@ -73,6 +73,15 @@
                 </div>
                 
                 <div class="topbar-right">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.4rem 1rem; background: var(--bg-input); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                        <div class="profile-badge-container">
+                            <img src="samyak.jpg" alt="Profile" id="profileImg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="avatar-fallback" style="display: none;">
+                                <span id="userInitials">?</span>
+                            </div>
+                        </div>
+                        <span id="userNameDisplay" style="font-size: 0.8125rem; font-weight: 600; color: var(--text-main); text-transform: capitalize;">User</span>
+                    </div>
                     <div id="themeToggleBtn" class="theme-switch" aria-label="Toggle Theme">
                         <i data-lucide="moon"></i>
                     </div>
